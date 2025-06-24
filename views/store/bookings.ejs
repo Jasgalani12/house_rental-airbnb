@@ -1,0 +1,29 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-rose-50 min-h-screen flex flex-col font-sans">
+  <%- include('../partials/nav') %>
+
+  <!-- 404 Content -->
+  <main class="flex-grow flex items-center justify-center px-4">
+    <div class="bg-white p-8 sm:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center animate-fade-in border-t-4 border-rose-400">
+      <div class="mb-6">
+        <h1 class="text-6xl sm:text-7xl font-extrabold text-rose-500 drop-shadow-md">booking</h1>
+      </div>
+      <p class="text-rose-500 text-sm mb-6">bookings will apper soon</p>
+    </div>
+  </main>
+
+  <!-- Animation -->
+  <style>
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.6s ease-out;
+    }
+  </style>
+
+</body>
+
+</html>

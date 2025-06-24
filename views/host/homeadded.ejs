@@ -1,0 +1,35 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-rose-50 min-h-screen flex flex-col font-sans">
+  <%- include('../partials/nav') %>
+
+  <!-- Success Message -->
+  <main class="flex-grow flex items-center justify-center px-4">
+    <div class="bg-white rounded-2xl shadow-lg p-6 max-w-xs w-full text-center animate-fade-in border-t-4 border-rose-400">
+      <div class="flex items-center justify-center w-12 h-12 mx-auto bg-rose-100 rounded-full shadow-inner mb-4">
+        <svg class="w-6 h-6 text-rose-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h1 class="text-xl font-bold text-rose-600 mb-2">Success!</h1>
+      <p class="text-sm text-rose-500 mb-4">Your home has been registered.</p>
+      <a href="/" class="inline-block bg-rose-500 hover:bg-rose-600 text-white text-xs font-medium py-2 px-4 rounded-full shadow transition-all duration-300">
+        Go Home
+      </a>
+    </div>
+  </main>
+
+  <style>
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.4s ease-out;
+    }
+  </style>
+
+</body>
+
+</html>
