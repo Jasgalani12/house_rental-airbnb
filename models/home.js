@@ -2,6 +2,8 @@ const path=require('path')
 const fs=require('fs')
 const root=require('../utils/pathUtil')
 
+const homedatapath=path.join(root,'data','homes.json')
+
 module.exports= class Home{
     constructor(housename,pricepernight,location,rating,photourl){
         this.housename=housename;
@@ -23,7 +25,6 @@ module.exports= class Home{
         
     }
     static fetchall(callback){
-        const homedatapath=path.join(root,'data','homes.json')
         fs.readFile(homedatapath,(err,data)=>{
             if(!err){
                 callback(JSON.parse(data))
@@ -31,6 +32,13 @@ module.exports= class Home{
             else{
                 callback([])
             }
+        })
+    }
+
+    static findbyid(homeid,callback){
+        this.fetchall(homes=>{
+            const homefound=homes.find(home=>home.id===homeid);
+            callback(homefound)
         })
     }
 }

@@ -19,5 +19,14 @@ exports.getfavouritelist=(req,res,next)=>{
 exports.gethomedetails=(req,res,next)=>{
     const homeid=req.params.homeid;
     // console.log('at home details page',homeid)
-    res.render('store/home-details',{pagetitle:'home details'})
+    Home.findbyid(homeid,home=>{
+        if(!home){
+            console.log('no home')
+            res.redirect('/homes')
+        }
+        else{
+            console.log(home)
+        res.render('store/home-details',{pagetitle:'home details',home:home})
+        }
+    })
 }
