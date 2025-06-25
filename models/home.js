@@ -14,9 +14,16 @@ module.exports= class Home{
     }
 
     save(){
-        this.id=Math.random().toString();
         Home.fetchall(rhouses=>{
-        rhouses.push(this);
+            if(this.id){
+                rhouses=rhouses.map(home=>
+                    home.id === this.id ? this:home)
+            }
+            else{
+                this.id=Math.random().toString();
+                rhouses.push(this);
+        }
+        
         fs.writeFile(homedatapath,JSON.stringify(rhouses),error=>{
             console.log(error);
         });

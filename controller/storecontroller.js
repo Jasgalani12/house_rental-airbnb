@@ -44,8 +44,8 @@ exports.gethomedetails=(req,res,next)=>{
             res.redirect('/homes')
         }
         else{
-            console.log(home)
-        res.render('store/home-details',{pagetitle:'home details',home:home})
+            // console.log(home)
+            res.render('store/home-details',{pagetitle:'home details',home:home})
         }
     })
 }

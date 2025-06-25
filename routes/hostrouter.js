@@ -8,4 +8,8 @@ hostrouter.post("/add-home",housecontroller.postaddhomes);
 
 hostrouter.get("/host-home-list",housecontroller.gethosthomes);
 
+hostrouter.get('/edit-home/:homeid',housecontroller.getedithome);
+
+hostrouter.post('/edit-home/',housecontroller.postedithome);
+
 module.exports=hostrouter;
