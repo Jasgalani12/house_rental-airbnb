@@ -1,9 +1,10 @@
 const express=require('express');
 const storerouter=express.Router()
-const homescontroller=require('../controller/storecontroller')
-storerouter.get("/",homescontroller.getindex); 
-storerouter.get("/homes",homescontroller.gethomes); 
-storerouter.get("/bookings",homescontroller.getbookings); 
-storerouter.get("/favourite",homescontroller.getfavouritelist); 
-storerouter.get("/homes/:homeid",homescontroller.gethomedetails); 
+const storecontroller=require('../controller/storecontroller')
+storerouter.get("/",storecontroller.getindex); 
+storerouter.get("/homes",storecontroller.gethomes); 
+storerouter.get("/bookings",storecontroller.getbookings); 
+storerouter.get("/favourite",storecontroller.getfavouritelist); 
+storerouter.post("/favourite",storecontroller.postaddtofavourite); 
+storerouter.get("/homes/:homeid",storecontroller.gethomedetails); 
 module.exports=storerouter;

@@ -17,13 +17,12 @@ module.exports= class Home{
         this.id=Math.random().toString();
         Home.fetchall(rhouses=>{
         rhouses.push(this);
-        const homedatapath=path.join(root,'data','homes.json')
         fs.writeFile(homedatapath,JSON.stringify(rhouses),error=>{
             console.log(error);
         });
         })
-        
     }
+    
     static fetchall(callback){
         fs.readFile(homedatapath,(err,data)=>{
             if(!err){
