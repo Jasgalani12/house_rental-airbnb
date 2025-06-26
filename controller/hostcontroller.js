@@ -15,7 +15,7 @@ exports.getedithome=(req,res,next)=>{
             console.log('home not found for editing')
             return res.redirect('/host/host-home-list');
         }
-        console.log(homeid,editing,home)
+        // console.log(homeid,editing,home)
         res.render('host/edit-home',{
             pagetitle:'edit your home',
             editing:editing,
@@ -39,11 +39,19 @@ exports.postedithome=(req,res,next)=>{
     res.redirect('/host/host-home-list')
 }
 
-
 exports.gethosthomes=(req,res,next)=>{
     const rhouses=Home.fetchall((rhouses)=>res.render('host/host-home-list',{rhouses:rhouses,pagetitle:'host-home-list'}))
 }
 
-
+exports.postdeletehome=(req,res,next)=>{
+    const homeid=req.params.homeid;
+    console.log("came to delete",homeid)
+    Home.deletebyid(homeid,error=>{
+        if(error){
+            console.log('error while deleting',error)
+        }
+        res.redirect('/host/host-home-list')
+    })
+}
 
 // exports.rhouses=rhouses;

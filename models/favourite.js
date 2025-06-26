@@ -28,4 +28,11 @@ module.exports= class Favourite{
             }
         })
     }
+
+    static deletebyid(delhomeid,callback){
+        Favourite.getfavourites(homeids=>{
+            homeids=homeids.filter(homeid=>delhomeid !== homeid)
+            fs.writeFile(favouritedatapath,JSON.stringify(homeids),callback);
+        })
+    }
 }

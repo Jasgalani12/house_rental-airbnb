@@ -12,4 +12,6 @@ hostrouter.get('/edit-home/:homeid',housecontroller.getedithome);
 
 hostrouter.post('/edit-home/',housecontroller.postedithome);
 
+hostrouter.post('/delete-home/:homeid',housecontroller.postdeletehome);
+
 module.exports=hostrouter;
