@@ -4,6 +4,15 @@ const storerouter=require('./routes/storerouter.js')
 const hostrouter=require('./routes/hostrouter.js')
 const root=require('./utils/pathUtil.js')
 const {pagenotfound}=require('./controller/errorcontroller.js')
+const db=require('./utils/databaseUtil.js');
+
+db.execute('SELECT * FROM homes')
+.then(([rows,fields])=>{
+    console.log('getting from db',rows)
+})
+.catch(error=>{
+    console.log('error while reading home records',error)
+})
 
 const app=express();
 app.set('view engine','ejs')

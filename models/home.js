@@ -26,7 +26,9 @@ module.exports= class Home{
         }
         
         fs.writeFile(homedatapath,JSON.stringify(rhouses),error=>{
-            console.log(error);
+            if(error){
+                console.log(error);
+            }
         });
         })
     }
