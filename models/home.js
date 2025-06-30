@@ -1,61 +1,34 @@
-const path=require('path')
-const fs=require('fs')
-const root=require('../utils/pathUtil')
-const Favourite = require('./favourite')
-
-const homedatapath=path.join(root,'data','homes.json')
+const db=require('../utils/databaseUtil.js');
 
 module.exports= class Home{
-    constructor(housename,pricepernight,location,rating,photourl){
+    constructor(housename,pricepernight,location,rating,photourl,descreption,id){
         this.housename=housename;
         this.pricepernight=pricepernight;
         this.location=location;
         this.rating=rating;
         this.photourl=photourl;
+        this.descreption=descreption;
+        this.id=id;
     }
 
     save(){
-        Home.fetchall(rhouses=>{
-            if(this.id){
-                rhouses=rhouses.map(home=>
-                    home.id === this.id ? this:home)
-            }
-            else{
-                this.id=Math.random().toString();
-                rhouses.push(this);
+        if(this.id){
+            return db.execute('UPDATE homes SET housename=?,pricepernight=?,location=?,rating=?,photourl=?,descreption=? WHERE id=?',[this.housename,this.pricepernight,this.location,this.rating,this.photourl,this.descreption,this.id])
+        }
+        else{
+            return db.execute('INSERT INTO homes (housename,pricepernight,location,rating,photourl,descreption) VALUES (?,?,?,?,?,?)',[this.housename,this.pricepernight,this.location,this.rating,this.photourl,this.descreption])
         }
         
-        fs.writeFile(homedatapath,JSON.stringify(rhouses),error=>{
-            if(error){
-                console.log(error);
-            }
-        });
-        })
     }
     
-    static fetchall(callback){
-        fs.readFile(homedatapath,(err,data)=>{
-            if(!err){
-                callback(JSON.parse(data))
-            }
-            else{
-                callback([])
-            }
-        })
+    static fetchall(){
+       return db.execute('SELECT * FROM homes')
     }
 
-    static findbyid(homeid,callback){
-        this.fetchall(homes=>{
-            const homefound=homes.find(home=>home.id===homeid);
-            callback(homefound)
-        })
+    static findbyid(homeid){
+        return db.execute('SELECT * FROM homes where id=?',[homeid])
     }
-    static deletebyid(homeid,callback){
-        this.fetchall(homes=>{
-            homes=homes.filter(home=>home.id !== homeid);
-            fs.writeFile(homedatapath,JSON.stringify(homes),error=>{
-                Favourite.deletebyid(homeid,callback);
-            });
-        })
+    static deletebyid(homeid){
+        return db.execute('DELETE FROM homes where id=?',[homeid])
     }
 }
