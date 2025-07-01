@@ -1,34 +1,48 @@
-const db=require('../utils/databaseUtil.js');
+const { ObjectId } = require("mongodb");
+const { getdb } = require("../utils/databaseUtil");
 
 module.exports= class Home{
-    constructor(housename,pricepernight,location,rating,photourl,descreption,id){
+    constructor(housename,pricepernight,location,rating,photourl,descreption,_id){
         this.housename=housename;
         this.pricepernight=pricepernight;
         this.location=location;
         this.rating=rating;
         this.photourl=photourl;
         this.descreption=descreption;
-        this.id=id;
+        if(_id){
+            this._id=_id;
+        }
     }
 
     save(){
-        if(this.id){
-            return db.execute('UPDATE homes SET housename=?,pricepernight=?,location=?,rating=?,photourl=?,descreption=? WHERE id=?',[this.housename,this.pricepernight,this.location,this.rating,this.photourl,this.descreption,this.id])
+        const db=getdb()
+        const data={
+            housename:this.housename,
+            pricepernight:this.pricepernight,
+            location:this.location,
+            rating:this.rating,
+            photourl:this.photourl,
+            descreption:this.descreption
         }
-        else{
-            return db.execute('INSERT INTO homes (housename,pricepernight,location,rating,photourl,descreption) VALUES (?,?,?,?,?,?)',[this.housename,this.pricepernight,this.location,this.rating,this.photourl,this.descreption])
+        if(this._id){//update
+             return db.collection('homes').updateOne({_id:new ObjectId(String(this._id))},{$set:data})
         }
-        
+        else{//new
+            return db.collection('homes').insertOne(this);
+        }
     }
     
     static fetchall(){
-       return db.execute('SELECT * FROM homes')
+        const db=getdb()
+        return db.collection('homes').find().toArray();
     }
 
     static findbyid(homeid){
-        return db.execute('SELECT * FROM homes where id=?',[homeid])
+        const db=getdb()
+        return db.collection('homes').find({_id:new ObjectId(String(homeid))}).next();
     }
     static deletebyid(homeid){
-        return db.execute('DELETE FROM homes where id=?',[homeid])
+        const db=getdb()
+        return db.collection('homes').deleteOne({_id:new ObjectId(String(homeid))});
     }
 }

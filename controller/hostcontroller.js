@@ -10,8 +10,7 @@ exports.getaddhomes=(req,res,next)=>{
 exports.getedithome=(req,res,next)=>{
     const homeid=req.params.homeid;
     const editing=req.query.editing === 'true';
-    Home.findbyid(homeid).then(([homes])=>{
-        const home=homes[0]
+    Home.findbyid(homeid).then((home)=>{
         if(!home){
             console.log('home not found for editing')
             return res.redirect('/host/host-home-list');
@@ -28,19 +27,23 @@ exports.getedithome=(req,res,next)=>{
 exports.postaddhomes=(req,res,next)=>{
     const{housename,pricepernight,location,rating,photourl,descreption}=req.body
     const home=new Home(housename,pricepernight,location,rating,photourl,descreption)
-    home.save()
+    home.save().then(()=>{
+        console.log('home saved succefully')
+    })
     // rhouses.push(req.body)
     res.redirect('/host/host-home-list')
 }
 exports.postedithome=(req,res,next)=>{
     const{id,housename,pricepernight,location,rating,photourl,descreption}=req.body
     const home=new Home(housename,pricepernight,location,rating,photourl,descreption,id)
-    home.save()
+    home.save().then( result=>{
+        console.log('home updated',result)
+    })
     res.redirect('/host/host-home-list')
 }
 
 exports.gethosthomes=(req,res,next)=>{
-    Home.fetchall().then(([rhouses])=>{
+    Home.fetchall().then(rhouses=>{
         res.render('host/host-home-list',{rhouses:rhouses,pagetitle:'host-home-list'})
     })
 }

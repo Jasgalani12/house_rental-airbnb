@@ -30,7 +30,7 @@
               <span class="text-amber-500 font-medium">⭐ <%= home.rating %>/5</span>
             </div>
             
-            <a href="/homes/<%=home.id%>" class="inline-block w-full text-center bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+            <a href="/homes/<%=home._id%>" class="inline-block w-full text-center bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
               Details
             </a>
             <%- include('../partials/favourite',{home:home}) %>

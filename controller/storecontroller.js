@@ -2,13 +2,13 @@ const Favourite = require("../models/favourite")
 const Home=require("../models/home")
 
 exports.gethomes=(req,res,next)=>{
-    Home.fetchall().then(([rhouses])=>{
+    Home.fetchall().then(rhouses=>{
         res.render('store/home-list',{rhouses:rhouses,pagetitle:'airbnb Home-list'})
     })
 }
 
 exports.getindex=(req,res,next)=>{
-    Home.fetchall().then(([rhouses])=>{
+    Home.fetchall().then(rhouses=>{
         res.render('store/index',{rhouses:rhouses,pagetitle:'airbnb index'})
     })
 }
@@ -19,8 +19,8 @@ exports.getbookings=(req,res,next)=>{
 
 exports.getfavouritelist=(req,res,next)=>{
     Favourite.getfavourites(favourite=>{
-        Home.fetchall().then(([rhouses])=>{
-            const favouritehomes=rhouses.filter(home=>favourite.includes(home.id))
+    Home.fetchall().then(rhouses=>{
+            const favouritehomes=rhouses.filter(home=>favourite.includes(home._id))
             res.render('store/favourite-list',{
                 favouritehomes:favouritehomes,
                 pagetitle:'my favourite list'
@@ -50,8 +50,7 @@ exports.postremovefromfavourite=(req,res,next)=>{
 exports.gethomedetails=(req,res,next)=>{
     const homeid=req.params.homeid;
     // console.log('at home details page',homeid)
-    Home.findbyid(homeid).then(([homes])=>{
-        const home=homes[0];
+    Home.findbyid(homeid).then((home)=>{
         if(!home){
             console.log('no home')
             res.redirect('/homes')

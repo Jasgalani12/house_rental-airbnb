@@ -3,7 +3,8 @@ const path=require('path')
 const storerouter=require('./routes/storerouter.js')
 const hostrouter=require('./routes/hostrouter.js')
 const root=require('./utils/pathUtil.js')
-const {pagenotfound}=require('./controller/errorcontroller.js')
+const {pagenotfound}=require('./controller/errorcontroller.js');
+const {mongoconnect} = require('./utils/databaseUtil.js');
 
 
 const app=express();
@@ -23,6 +24,9 @@ app.use(express.static(path.join(root,'./','public')))
 app.use(pagenotfound)
 
 const port=3000;
-app.listen(port,()=>{
-    console.log(`server running on address http://localhost:${port}`)
-});
+mongoconnect(()=>{
+    // console.log(client);
+    app.listen(port,()=>{
+        console.log(`server running on address http://localhost:${port}`)
+    });
+})
