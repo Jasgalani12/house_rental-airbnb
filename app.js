@@ -4,7 +4,7 @@ const storerouter=require('./routes/storerouter.js')
 const hostrouter=require('./routes/hostrouter.js')
 const root=require('./utils/pathUtil.js')
 const {pagenotfound}=require('./controller/errorcontroller.js');
-const {mongoconnect} = require('./utils/databaseUtil.js');
+const { default: mongoose } = require('mongoose');
 
 
 const app=express();
@@ -24,9 +24,15 @@ app.use(express.static(path.join(root,'./','public')))
 app.use(pagenotfound)
 
 const port=3000;
-mongoconnect(()=>{
-    // console.log(client);
-    app.listen(port,()=>{
-        console.log(`server running on address http://localhost:${port}`)
-    });
-})
+
+const dbpath="mongodb+srv://root:1234@jas.rssa3h4.mongodb.net/airbnb?retryWrites=true&w=majority&appName=jas";
+mongoose.connect(dbpath)
+    .then(()=>{
+        console.log('connected to mongo')
+        app.listen(port,()=>{
+            console.log(`server running on address http://localhost:${port}`)
+        });
+    })
+    .catch(err=>{
+        console.log('error while connecting to mongo',err)
+    })

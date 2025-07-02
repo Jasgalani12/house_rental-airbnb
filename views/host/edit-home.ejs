@@ -47,10 +47,9 @@
         />
         <textarea
           name="descreption"
-          value="<%= editing ? home.descreption : '' %>"
           placeholder="Enter descreption"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400"
-        ></textarea>
+        ><%= editing ? home.descreption : '' %></textarea>
         <button
           type="submit"
           class="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 rounded-lg transition duration-300"
