@@ -18,32 +18,43 @@ exports.getbookings=(req,res,next)=>{
 }
 
 exports.getfavouritelist=(req,res,next)=>{
-    Favourite.getfavourites(favourite=>{
-    Home.fetchall().then(rhouses=>{
-            const favouritehomes=rhouses.filter(home=>favourite.includes(home._id))
-            res.render('store/favourite-list',{
-                favouritehomes:favouritehomes,
-                pagetitle:'my favourite list'
+    Favourite.getfavourites().then(favourite=>{
+        favourite=favourite.map(fav=>fav.houseid)
+        Home.fetchall().then(rhouses=>{
+                const favouritehomes=rhouses.filter(home=>favourite.includes(home._id.toString()))
+                res.render('store/favourite-list',{
+                    favouritehomes:favouritehomes,
+                    pagetitle:'my favourite list'
+                })
             })
         })
-    })
      
 }
 
 exports.postaddtofavourite=(req,res,next)=>{
-    Favourite.addtofavourite(req.body.id,error=>{
-        if(error){
-            console.log('error while marking favourite: ',error)
-        }
+    const homeid=req.body.id;
+    const fav=new Favourite(homeid)
+
+    fav.save()
+    .then(result=>{
+        console.log('fav added')
+    })
+    .catch(err=>{
+        console.log('error while adding favourite:',err)
+    })
+    .finally(()=>{
         res.redirect('/favourite');
     })
 }
 exports.postremovefromfavourite=(req,res,next)=>{
     const homeid=req.params.homeid;
-    Favourite.deletebyid(homeid,error=>{
-        if(error){
-            console.log('error while removing favourite',error)
-        }
+    Favourite.deletebyid(homeid).then(result=>{
+        console.log('fav removed')
+    })
+    .catch(err=>{
+        console.log('error while removing favourite:',err)
+    })
+    .finally(()=>{
         res.redirect('/favourite');
     })
 }
