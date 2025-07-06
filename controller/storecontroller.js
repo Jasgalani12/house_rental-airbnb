@@ -18,18 +18,18 @@ exports.getbookings=(req,res,next)=>{
 }
 
 exports.getfavouritelist=(req,res,next)=>{
-    Favourite.find().then((favourite)=>{
-        favourite=favourite.map((fav)=>fav.houseid.toString())
-        Home.find().then((rhouses)=>{
-                const favouritehomes=rhouses.filter(home=>favourite.includes(home._id.toString()))
-                res.render('store/favourite-list',{
-                    favouritehomes:favouritehomes,
-                    pagetitle:'my favourite list'
-                })
-            })
+    Favourite.find()
+    .populate('houseid')
+    .then((favourite)=>{
+        const favouritehomes=favourite.map((fav)=>fav.houseid)
+        res.render('store/favourite-list',{
+            favouritehomes:favouritehomes,
+            pagetitle:'my favourite list'
         })
-     
+    })
 }
+     
+
 
 exports.postaddtofavourite=(req,res,next)=>{
     const homeid=req.body.id;

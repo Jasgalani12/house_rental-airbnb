@@ -48,7 +48,7 @@ exports.postedithome=(req,res,next)=>{
         home.descreption=descreption;
         home.save()
         .then( result=>{
-            console.log('home updated',result)
+            console.log('home updated')
         })
         .catch(err=>{
             console.log('error while updating',err)

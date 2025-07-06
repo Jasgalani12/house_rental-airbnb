@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const favouriteschema=new mongoose.Schema({
-    houseid:{type:mongoose.Schema.Types.ObjectId,ref:'',required:true,unique:true}
+    houseid:{type:mongoose.Schema.Types.ObjectId,ref:'home',required:true,unique:true}
     
 });
 
