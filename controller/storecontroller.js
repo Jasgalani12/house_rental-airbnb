@@ -3,18 +3,18 @@ const Home=require("../models/home")
 
 exports.gethomes=(req,res,next)=>{
     Home.find().then(rhouses=>{
-        res.render('store/home-list',{rhouses:rhouses,pagetitle:'airbnb Home-list'})
+        res.render('store/home-list',{rhouses:rhouses,pagetitle:'airbnb Home-list',isLoggedIn:req.isLoggedIn,})
     })
 }
 
 exports.getindex=(req,res,next)=>{
     Home.find().then(rhouses=>{
-        res.render('store/index',{rhouses:rhouses,pagetitle:'airbnb index'})
+        res.render('store/index',{rhouses:rhouses,pagetitle:'airbnb index',isLoggedIn:req.isLoggedIn,})
     })
 }
 
 exports.getbookings=(req,res,next)=>{
-    res.render('store/bookings',{pagetitle:'my bookings'})   
+    res.render('store/bookings',{pagetitle:'my bookings',isLoggedIn:req.isLoggedIn,})   
 }
 
 exports.getfavouritelist=(req,res,next)=>{
@@ -24,7 +24,7 @@ exports.getfavouritelist=(req,res,next)=>{
         const favouritehomes=favourite.map((fav)=>fav.houseid)
         res.render('store/favourite-list',{
             favouritehomes:favouritehomes,
-            pagetitle:'my favourite list'
+            pagetitle:'my favourite list',isLoggedIn:req.isLoggedIn,
         })
     })
 }
@@ -70,7 +70,7 @@ exports.gethomedetails=(req,res,next)=>{
             res.redirect('/homes')
         }
         else{
-            res.render('store/home-details',{pagetitle:'home details',home:home})
+            res.render('store/home-details',{pagetitle:'home details',home:home,isLoggedIn:req.isLoggedIn})
         }
     })
 }

@@ -2,6 +2,7 @@ const express=require('express');
 const path=require('path')
 const storerouter=require('./routes/storerouter.js')
 const hostrouter=require('./routes/hostrouter.js')
+const authrouter = require('./routes/authrouter.js');
 const root=require('./utils/pathUtil.js')
 const {pagenotfound}=require('./controller/errorcontroller.js');
 const { default: mongoose } = require('mongoose');
@@ -17,8 +18,28 @@ app.set('views','views')
 
 app.use(express.urlencoded())
 
+app.use(session({
+    secret:'session for airbnb',
+    resave:false,
+    saveUninitialized:true
+}))
+
+app.use((req,res,next)=>{
+    req.isLoggedIn = req.get('Cookie')?.split('=')[1] === 'true' ? true : false;
+    next()  
+})
+
 app.use(storerouter);
+app.use(authrouter);
 app.use("/host",hostrouter);
+app.use('/host',(req,res,next)=>{
+    if(!req.isLoggedIn){
+        res.redirect('/login')
+    }
+    else{
+        next()
+    }
+})
 app.use(express.static(path.join(root,'./','public')))
 
 app.use(pagenotfound)
