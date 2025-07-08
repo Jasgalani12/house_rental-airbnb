@@ -3,18 +3,19 @@ const Home=require("../models/home")
 
 exports.gethomes=(req,res,next)=>{
     Home.find().then(rhouses=>{
-        res.render('store/home-list',{rhouses:rhouses,pagetitle:'airbnb Home-list',isLoggedIn:req.isLoggedIn,})
+        res.render('store/home-list',{rhouses:rhouses,pagetitle:'airbnb Home-list',isLoggedIn:req.session.isLoggedIn,})
     })
 }
 
 exports.getindex=(req,res,next)=>{
+    console.log('session value',req.session)
     Home.find().then(rhouses=>{
-        res.render('store/index',{rhouses:rhouses,pagetitle:'airbnb index',isLoggedIn:req.isLoggedIn,})
+        res.render('store/index',{rhouses:rhouses,pagetitle:'airbnb index',isLoggedIn:req.session.isLoggedIn,})
     })
 }
 
 exports.getbookings=(req,res,next)=>{
-    res.render('store/bookings',{pagetitle:'my bookings',isLoggedIn:req.isLoggedIn,})   
+    res.render('store/bookings',{pagetitle:'my bookings',isLoggedIn:req.session.isLoggedIn,})   
 }
 
 exports.getfavouritelist=(req,res,next)=>{
@@ -24,7 +25,7 @@ exports.getfavouritelist=(req,res,next)=>{
         const favouritehomes=favourite.map((fav)=>fav.houseid)
         res.render('store/favourite-list',{
             favouritehomes:favouritehomes,
-            pagetitle:'my favourite list',isLoggedIn:req.isLoggedIn,
+            pagetitle:'my favourite list',isLoggedIn:req.session.isLoggedIn,
         })
     })
 }
@@ -70,7 +71,7 @@ exports.gethomedetails=(req,res,next)=>{
             res.redirect('/homes')
         }
         else{
-            res.render('store/home-details',{pagetitle:'home details',home:home,isLoggedIn:req.isLoggedIn})
+            res.render('store/home-details',{pagetitle:'home details',home:home,isLoggedIn:req.session.isLoggedIn})
         }
     })
 }

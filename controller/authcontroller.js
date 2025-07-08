@@ -7,11 +7,11 @@ exports.getlogin=(req,res,next)=>{
 };
 
 exports.postlogin=(req,res,next)=>{
-    res.cookie('isLoggedIn',true)
-    req.isLoggedIn=true;
+    req.session.isLoggedIn=true;
     res.redirect('/')
 };
 exports.postlogout=(req,res,next)=>{
-    res.cookie('isLoggedIn',false)
-    res.redirect('/login')
+    req.session.destroy(()=>{
+        res.redirect('/login')
+    })
 };
