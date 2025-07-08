@@ -8,7 +8,7 @@ exports.gethomes=(req,res,next)=>{
 }
 
 exports.getindex=(req,res,next)=>{
-    console.log('session value',req.session)
+    // console.log('session value',req.session)
     Home.find().then(rhouses=>{
         res.render('store/index',{rhouses:rhouses,pagetitle:'airbnb index',isLoggedIn:req.session.isLoggedIn,})
     })
