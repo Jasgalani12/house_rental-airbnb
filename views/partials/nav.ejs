@@ -14,12 +14,14 @@
     <!-- Desktop Menu -->
     <div id="menu" class="hidden md:flex items-center space-x-6">
       <% if (isLoggedIn) { %>
-        <a href="/" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Home</a>
-        <a href="/homes" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Home-list</a>
-        <a href="/host/host-home-list" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Host Homes</a>
-        <a href="/host/add-home" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">+ Add Home</a>
-        <a href="/bookings" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Bookings</a>
-        <a href="/favourite" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Favourite</a>
+        <% if (user && user.usertype === 'guest') { %>
+          <a href="/homes" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Home-list</a>
+          <a href="/bookings" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Bookings</a>
+          <a href="/favourite" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Favourite</a>
+        <% } else {%>
+          <a href="/host/host-home-list" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Host Homes</a>
+          <a href="/host/add-home" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">+ Add Home</a>
+        <% } %>
       <% } %>
 
       <% if (!isLoggedIn) { %>
@@ -36,12 +38,14 @@
   <!-- Mobile Menu -->
   <div id="mobileMenu" class="md:hidden hidden px-6 pb-4 bg-white/95 backdrop-blur-md space-y-3 rounded-b-xl shadow-inner">
     <% if (isLoggedIn) { %>
-      <a href="/" class="block text-slate-700 hover:text-rose-600 font-medium transition">Home</a>
-      <a href="/homes" class="block text-slate-700 hover:text-rose-600 font-medium transition">Home-list</a>
-      <a href="/host/host-home-list" class="block text-slate-700 hover:text-rose-600 font-medium transition">Host Homes</a>
-      <a href="/host/add-home" class="block text-slate-700 hover:text-rose-600 font-medium transition">+ Add Home</a>
-      <a href="/bookings" class="block text-slate-700 hover:text-rose-600 font-medium transition">Bookings</a>
-      <a href="/favourite" class="block text-slate-700 hover:text-rose-600 font-medium transition">Favourite</a>
+      <% if (user && user.usertype === 'guest') { %>
+        <a href="/homes" class="block text-slate-700 hover:text-rose-600 font-medium transition">Home-list</a>
+        <a href="/bookings" class="block text-slate-700 hover:text-rose-600 font-medium transition">Bookings</a>
+        <a href="/favourite" class="block text-slate-700 hover:text-rose-600 font-medium transition">Favourite</a>
+      <% }else{ %>
+        <a href="/host/host-home-list" class="block text-slate-700 hover:text-rose-600 font-medium transition">Host Homes</a>
+        <a href="/host/add-home" class="block text-slate-700 hover:text-rose-600 font-medium transition">+ Add Home</a>
+      <% } %>
     <% } %>
 
     <% if (!isLoggedIn) { %>

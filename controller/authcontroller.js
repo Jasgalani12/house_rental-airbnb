@@ -7,7 +7,8 @@ exports.getlogin=(req,res,next)=>{
         pagetitle:'login',
         isLoggedIn:false,
         errors:[],
-        oldInput:{}
+        oldInput:{email:''},
+        user:{}
     })
 };
 exports.getsignup=(req,res,next)=>{
@@ -16,8 +17,8 @@ exports.getsignup=(req,res,next)=>{
         pagetitle:'Signup',
         isLoggedIn:false,
         errors:[],
-        oldInput: {firstname:"",lastname:"",email:"",usertype:""}
-        
+        oldInput: {firstname:"",lastname:"",email:"",usertype:""},
+        user:{}
     })
 };
 
@@ -29,7 +30,8 @@ exports.postlogin= async (req,res,next)=>{
             pagetitle:'login',
             isLoggedIn:false,
             errors:['user does not exists'],
-            oldInput:{email}
+            oldInput:{email},
+            user:{}
         })
     }
 
@@ -39,7 +41,8 @@ exports.postlogin= async (req,res,next)=>{
             pagetitle:'login',
             isLoggedIn:false,
             errors:['Invalid password'],
-            oldInput:{email}
+            oldInput:{email},
+            user:{}
         })
     }
     req.session.isLoggedIn=true;
@@ -101,7 +104,8 @@ exports.postsignup=[
                 pagetitle: 'Signup',
                 isLoggedIn: false,
                 errors: errors.array().map(err => err.msg),
-                oldInput: {firstname,lastname,email,password,usertype}
+                oldInput: {firstname,lastname,email,password,usertype},
+                user:{}
             });
         }
 
@@ -117,7 +121,8 @@ exports.postsignup=[
                             pagetitle: 'Signup',
                             isLoggedIn: false,
                             errors:[err.msg],
-                            oldInput: {firstname,lastname,email,password,usertype}
+                            oldInput: {firstname,lastname,email,password,usertype},
+                            user:{}
                         });
                     })
             })       
