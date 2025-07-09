@@ -12,15 +12,7 @@
       </h1>
 
       <!-- Error Alert -->
-      <% if (errors.length > 0) { %>
-        <div class="mb-6 bg-rose-100 text-rose-700 px-4 py-3 rounded-lg border border-rose-200">
-          <ul class="list-disc list-inside space-y-1">
-            <% errors.forEach(error => { %>
-              <li><%= error %></li>
-            <% }) %>
-          </ul>
-        </div>
-      <% } %>
+      <%-include('../partials/errors')%>
 
       <!-- Form Start -->
       <form action="/signup" method="post" class="space-y-6">

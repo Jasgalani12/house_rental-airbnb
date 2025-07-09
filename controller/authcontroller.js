@@ -1,9 +1,13 @@
 const { check,validationResult } = require("express-validator");
+const bcrypt=require('bcryptjs')
+const User=require('../models/user')
 
 exports.getlogin=(req,res,next)=>{
     res.render('auth/login',{
         pagetitle:'login',
         isLoggedIn:false,
+        errors:[],
+        oldInput:{}
     })
 };
 exports.getsignup=(req,res,next)=>{
@@ -17,8 +21,29 @@ exports.getsignup=(req,res,next)=>{
     })
 };
 
-exports.postlogin=(req,res,next)=>{
+exports.postlogin= async (req,res,next)=>{
+    const {email,password}=req.body
+    const user= await User.findOne({email})
+    if(!user){
+        return res.status(422).render('auth/login',{
+            pagetitle:'login',
+            isLoggedIn:false,
+            errors:['user does not exists'],
+            oldInput:{email}
+        })
+    }
+
+    const ismatch= await bcrypt.compare(password,user.password)
+    if(!ismatch){
+         return res.status(422).render('auth/login',{
+            pagetitle:'login',
+            isLoggedIn:false,
+            errors:['Invalid password'],
+            oldInput:{email}
+        })
+    }
     req.session.isLoggedIn=true;
+    req.session.user=user
     res.redirect('/')
 };
 exports.postsignup=[
@@ -69,7 +94,7 @@ exports.postsignup=[
     }),
 
     (req,res,next)=>{
-        const{ firstname,lastname,email,password,usertype}=req.body;
+        const{firstname,lastname,email,password,usertype}=req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).render('auth/signup', {
@@ -79,7 +104,23 @@ exports.postsignup=[
                 oldInput: {firstname,lastname,email,password,usertype}
             });
         }
-        res.redirect('/login')
+
+        bcrypt.hash(password,12)
+            .then(hashpassword=>{
+                const user=new User({firstname,lastname,email,password:hashpassword,usertype})
+                return user.save()
+                    .then(()=>{
+                        res.redirect('/login')
+                    })
+                    .catch((err)=>{
+                        return res.status(422).render('auth/signup', {
+                            pagetitle: 'Signup',
+                            isLoggedIn: false,
+                            errors:[err.msg],
+                            oldInput: {firstname,lastname,email,password,usertype}
+                        });
+                    })
+            })       
     }
 ];
 
