@@ -31,7 +31,7 @@ app.use(session({
     secret:'session for airbnb',
     resave:false,
     saveUninitialized:true,
-    store:store
+    store
 }))
 
 // app.use((req,res,next)=>{
@@ -61,7 +61,7 @@ mongoose.connect(dbpath)
     .then(()=>{
         console.log('connected to mongo')
         app.listen(port,()=>{
-            console.log(`server running on address http://localhost:${port}`)
+            console.log(`server running on address http://localhost:${port}/login`)
         });
     })
     .catch(err=>{

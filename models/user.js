@@ -23,7 +23,11 @@ const userschema=new mongoose.Schema({
     },
     tac:{
         type:String,
-    }
+    },
+    favourites:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'home'
+    }]
 });
 
 module.exports=mongoose.model('User',userschema)

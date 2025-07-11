@@ -17,7 +17,7 @@ exports.getsignup=(req,res,next)=>{
         pagetitle:'Signup',
         isLoggedIn:false,
         errors:[],
-        oldInput: {firstname:"",lastname:"",email:"",usertype:""},
+        oldInput: {firstname:"",lastname:"",email:"",usertype:"",tac:""},
         user:{}
     })
 };
@@ -46,7 +46,7 @@ exports.postlogin= async (req,res,next)=>{
         })
     }
     req.session.isLoggedIn=true;
-    req.session.user=user
+    req.session.user=user;
     res.redirect('/')
 };
 exports.postsignup=[
@@ -97,7 +97,7 @@ exports.postsignup=[
     }),
 
     (req,res,next)=>{
-        const{firstname,lastname,email,password,usertype}=req.body;
+        const{firstname,lastname,email,password,usertype,tac}=req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).render('auth/signup', {
@@ -111,7 +111,7 @@ exports.postsignup=[
 
         bcrypt.hash(password,12)
             .then(hashpassword=>{
-                const user=new User({firstname,lastname,email,password:hashpassword,usertype})
+                const user=new User({firstname,lastname,email,password:hashpassword,usertype,tac})
                 return user.save()
                     .then(()=>{
                         res.redirect('/login')
