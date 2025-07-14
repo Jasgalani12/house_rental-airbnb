@@ -1,35 +1,76 @@
 <%- include('../partials/head') %>
 </head>
-<body class="bg-rose-50 font-sans">
+<body class="bg-gradient-to-br from-rose-50 to-pink-50 font-sans min-h-screen">
 
   <!-- Navbar -->
   <%- include('../partials/nav') %>
 
   <!-- Main Content -->
   <main class="container mx-auto px-4 py-12">
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-rose-600 mb-12 drop-shadow-md animate-fade-up">
-      You are on the Home Detail Page
-    </h1>
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6">
+      <!-- Image -->
+      <div class="relative mb-6">
+        <img src="<%= home.photo %>" alt="<%= home.housename %>" 
+             class="h-72 w-full object-cover rounded-xl">
+        <div class="absolute top-4 right-4">
+          <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-full px-3 py-1 shadow-md">
+            <span class="text-rose-600 font-semibold text-sm">⭐ <%= home.rating %>/5</span>
+          </div>
+        </div>
+      </div>
 
-    <!-- Home Card -->
-    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-[1.02] hover:shadow-xl transition duration-300 animate-fade-up">
-      <img src="<%= home.photourl %>" alt="Home Image" class="h-60 w-full object-cover">
-      
-      <div class="p-6 sm:p-8">
-        <h2 class="text-2xl font-bold text-slate-800 mb-2"><%= home.housename %></h2>
-        <p class="text-slate-500 text-sm mb-4">📍 <%= home.location %></p>
+      <!-- Home Details -->
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
+        <div class="flex-1">
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
+            <%= home.housename %>
+          </h2>
+          <div class="flex items-center text-slate-600 mb-4">
+            <svg class="w-4 h-4 mr-2 text-rose-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-base"><%= home.location %></span>
+          </div>
+        </div>
         
-        <div class="flex justify-between items-center text-base text-slate-700 mb-6">
-          <span class="font-medium">💰 ₹<%= home.pricepernight %> <span class="text-sm text-slate-500">/night</span></span>
-          <span class="text-amber-500 font-semibold">⭐ <%= home.rating %>/5</span>
+        <div class="lg:ml-6 mt-4 lg:mt-0">
+          <div class="bg-gradient-to-r from-rose-500 to-pink-500 rounded-xl p-4 text-white text-center">
+            <div class="text-2xl font-bold">₹<%= home.pricepernight %></div>
+            <div class="text-rose-100 text-sm">per night</div>
+          </div>
         </div>
-        <div> <%= home.descreption %></div>
-        <div>
-          <%- include('../partials/favourite',{home:home}) %>
-        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-slate-800 mb-3 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Description
+        </h3>
+        <p class="text-slate-600 leading-relaxed">
+          <%= home.descreption %>
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%- include('../partials/favourite',{home:home}) %>
+        <button class="flex-1 bg-gradient-to-r from-rose-600 to-pink-600 text-white font-medium py-3 px-6 rounded-lg hover:from-rose-700 hover:to-pink-700 transition duration-200 flex items-center justify-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          Book Now
+        </button>
       </div>
     </div>
   </main>
+  <div>
+    <a href="/rules/<%= home._id %>">download rules</a>
+  </div>
+  <!-- Footer Spacing -->
+  <div class="h-8"></div>
 
 </body>
 </html>

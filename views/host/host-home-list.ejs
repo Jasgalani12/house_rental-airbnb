@@ -21,7 +21,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
       <% rhouses.forEach(home => { %>
         <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-[1.03] hover:shadow-xl transition duration-300 animate-fade-up">
-          <img src="<%= home.photourl %>" alt="Home Image" class="h-52 w-full object-cover">
+          <img src="<%= home.photo %>" alt="Home Image" class="h-52 w-full object-cover">
           <div class="p-5 flex flex-col gap-3">
             <div>
               <h2 class="text-xl font-bold text-slate-800 mb-1"><%= home.housename %></h2>

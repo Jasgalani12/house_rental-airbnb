@@ -1,7 +1,7 @@
 <nav class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-50">
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
     <!-- Logo -->
-    <a href="/" class="text-3xl font-black text-rose-600 tracking-tight">Airbnb</a>
+    <a class="text-3xl font-black text-rose-600 tracking-tight">Airbnb</a>
 
     <!-- Hamburger Menu (Mobile) -->
     <button id="menuToggle" class="md:hidden text-rose-600 focus:outline-none">
@@ -15,10 +15,12 @@
     <div id="menu" class="hidden md:flex items-center space-x-6">
       <% if (isLoggedIn) { %>
         <% if (user && user.usertype === 'guest') { %>
+          <a href="/" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Home</a>
           <a href="/homes" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Home-list</a>
           <a href="/bookings" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Bookings</a>
           <a href="/favourite" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Favourite</a>
         <% } else {%>
+          <a href="/" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Homes</a>
           <a href="/host/host-home-list" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">Host Homes</a>
           <a href="/host/add-home" class="text-slate-700 hover:text-rose-600 font-medium transition-all duration-200">+ Add Home</a>
         <% } %>
@@ -39,10 +41,12 @@
   <div id="mobileMenu" class="md:hidden hidden px-6 pb-4 bg-white/95 backdrop-blur-md space-y-3 rounded-b-xl shadow-inner">
     <% if (isLoggedIn) { %>
       <% if (user && user.usertype === 'guest') { %>
+        <a href="/" class="block text-slate-700 hover:text-rose-600 font-medium transition">Home</a>
         <a href="/homes" class="block text-slate-700 hover:text-rose-600 font-medium transition">Home-list</a>
         <a href="/bookings" class="block text-slate-700 hover:text-rose-600 font-medium transition">Bookings</a>
         <a href="/favourite" class="block text-slate-700 hover:text-rose-600 font-medium transition">Favourite</a>
       <% }else{ %>
+        <a href="/" class="block text-slate-700 hover:text-rose-600 font-medium transition">Home</a>
         <a href="/host/host-home-list" class="block text-slate-700 hover:text-rose-600 font-medium transition">Host Homes</a>
         <a href="/host/add-home" class="block text-slate-700 hover:text-rose-600 font-medium transition">+ Add Home</a>
       <% } %>

@@ -1,4 +1,5 @@
 const express=require('express');
+const multer=require('multer')
 const session=require('express-session')
 const mondodbstore=require('connect-mongodb-session')(session)
 const dbpath="mongodb+srv://root:1234@jas.rssa3h4.mongodb.net/airbnb?retryWrites=true&w=majority&appName=jas";
@@ -9,7 +10,6 @@ const authrouter = require('./routes/authrouter.js');
 const root=require('./utils/pathUtil.js')
 const {pagenotfound}=require('./controller/errorcontroller.js');
 const { default: mongoose } = require('mongoose');
-const { MongoDBStore } = require('connect-mongodb-session');
 
 
 const app=express();
@@ -25,7 +25,38 @@ const store = new mondodbstore({
     collection:'sessions'
 })
 
+const randomString=(length)=>{
+    return Math.random().toString(36).substring(2,2+length)
+}
+
+const storage=multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,'uploads/')
+    },
+    filename:(req,file,cb)=>{
+        cb(null,randomString(10)+'-'+file.originalname)
+    }
+})
+const fileFilter=(req,file,cb)=>{
+    if(file.mimetype==='image/jpeg' || file.mimetype==='image/png'|| file.mimetype==='image/jpg'){
+        cb(null,true)
+    }
+    else{
+        cb(null,false)
+    }
+}
+
+const multerOptions={
+    storage:storage,
+    fileFilter:fileFilter
+}
+
 app.use(express.urlencoded())
+app.use(multer(multerOptions).single('photo'))
+app.use(express.static(path.join(root,'./','public')))
+app.use('/uploads',express.static(path.join(root,'uploads')))
+app.use('/host/uploads',express.static(path.join(root,'uploads')))
+app.use('/homes/uploads',express.static(path.join(root,'uploads')))
 
 app.use(session({
     secret:'session for airbnb',
@@ -50,7 +81,7 @@ app.use('/host',(req,res,next)=>{
         next()
     }
 })
-app.use(express.static(path.join(root,'./','public')))
+
 
 app.use(pagenotfound)
 

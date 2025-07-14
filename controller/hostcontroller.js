@@ -1,5 +1,6 @@
 const home = require("../models/home");
 const Home=require("../models/home")
+const fs=require('fs')
 
 exports.getaddhomes=(req,res,next)=>{
     res.render('host/edit-home',{
@@ -30,8 +31,16 @@ exports.getedithome=(req,res,next)=>{
 };
 
 exports.postaddhomes=(req,res,next)=>{
-    const{housename,pricepernight,location,rating,photourl,descreption}=req.body
-    const home=new Home({housename,pricepernight,location,rating,photourl,descreption})
+    const{housename,pricepernight,location,rating,descreption}=req.body
+    console.log(req.file)
+
+    const photo=req.file.path;
+
+    if(!req.file){
+        return res.status(422).send('no image found')
+    }
+    
+    const home=new Home({housename,pricepernight,location,rating,photo,descreption})
     home.save().then(()=>{
         console.log('home saved succefully')
     })
@@ -41,15 +50,24 @@ exports.postaddhomes=(req,res,next)=>{
 
 
 exports.postedithome=(req,res,next)=>{
-    const{id,housename,pricepernight,location,rating,photourl,descreption}=req.body
+    const{id,housename,pricepernight,location,rating,descreption}=req.body
     home.findById(id)
     .then((home)=>{
         home.housename=housename;
         home.pricepernight=pricepernight;
         home.location=location;
         home.rating=rating;
-        home.photourl=photourl;
         home.descreption=descreption;
+
+        if(req.file){
+            fs.unlink(home.photo,(err)=>{
+                if(err){
+                    console.log('error while deleting old photo',err)
+                }
+            })
+            home.photo=req.file.path
+        }
+
         home.save()
         .then( result=>{
             console.log('home updated')

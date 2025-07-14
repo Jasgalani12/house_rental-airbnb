@@ -5,7 +5,7 @@ const homeschema=new mongoose.Schema({
     pricepernight:{type:Number,required:true},
     location:{type:String,required:true},
     rating:{type:Number,required:true},
-    photourl:String,
+    photo:String,
     descreption:String
 });
 
