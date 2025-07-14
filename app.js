@@ -31,14 +31,19 @@ const randomString=(length)=>{
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
-        cb(null,'uploads/')
+        // Save PDF files in rules folder, others in uploads folder
+        if(file.mimetype === 'application/pdf'){
+            cb(null,'rules/')
+        } else {
+            cb(null,'uploads/')
+        }
     },
     filename:(req,file,cb)=>{
         cb(null,randomString(10)+'-'+file.originalname)
     }
 })
 const fileFilter=(req,file,cb)=>{
-    if(file.mimetype==='image/jpeg' || file.mimetype==='image/png'|| file.mimetype==='image/jpg'){
+    if(file.mimetype==='image/jpeg' || file.mimetype==='image/png'|| file.mimetype==='image/jpg'||file.mimetype==='application/pdf'){
         cb(null,true)
     }
     else{
@@ -52,11 +57,15 @@ const multerOptions={
 }
 
 app.use(express.urlencoded())
-app.use(multer(multerOptions).single('photo'))
+app.use(multer(multerOptions).fields([
+  { name: 'photo'},
+  { name: 'rules'}
+]))
 app.use(express.static(path.join(root,'./','public')))
 app.use('/uploads',express.static(path.join(root,'uploads')))
 app.use('/host/uploads',express.static(path.join(root,'uploads')))
 app.use('/homes/uploads',express.static(path.join(root,'uploads')))
+app.use('/rules',express.static(path.join(root,'rules')))
 
 app.use(session({
     secret:'session for airbnb',

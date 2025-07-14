@@ -32,15 +32,16 @@ exports.getedithome=(req,res,next)=>{
 
 exports.postaddhomes=(req,res,next)=>{
     const{housename,pricepernight,location,rating,descreption}=req.body
-    console.log(req.file)
+    console.log(req.files)
 
-    const photo=req.file.path;
+    const photo=req.files.photo ? req.files.photo[0].path : null;
+    const rules=req.files.rules ? req.files.rules[0].path : null;
 
-    if(!req.file){
+    if(!req.files.photo){
         return res.status(422).send('no image found')
     }
     
-    const home=new Home({housename,pricepernight,location,rating,photo,descreption})
+    const home=new Home({housename,pricepernight,location,rating,photo,descreption,rules})
     home.save().then(()=>{
         console.log('home saved succefully')
     })
@@ -59,13 +60,21 @@ exports.postedithome=(req,res,next)=>{
         home.rating=rating;
         home.descreption=descreption;
 
-        if(req.file){
+        if(req.files && req.files.photo){
             fs.unlink(home.photo,(err)=>{
                 if(err){
                     console.log('error while deleting old photo',err)
                 }
             })
             home.photo=req.file.path
+        }
+        if(req.files && req.files.rules){
+            fs.unlink(home.rules,(err)=>{
+                if(err){
+                    console.log('error while deleting old file',err)
+                }
+            })
+            home.rules=req.file.path
         }
 
         home.save()

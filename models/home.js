@@ -6,7 +6,8 @@ const homeschema=new mongoose.Schema({
     location:{type:String,required:true},
     rating:{type:Number,required:true},
     photo:String,
-    descreption:String
+    descreption:String,
+    rules:String
 });
 
 module.exports=mongoose.model('home',homeschema)

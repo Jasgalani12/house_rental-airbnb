@@ -15,4 +15,6 @@ storerouter.post("/favourite/delete/:homeid",storecontroller.postremovefromfavou
 
 storerouter.get("/homes/:homeid",storecontroller.gethomedetails); 
 
+storerouter.get("/rules/:homeid",storecontroller.gethouserules); 
+
 module.exports=storerouter;

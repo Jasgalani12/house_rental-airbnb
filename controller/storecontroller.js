@@ -1,5 +1,7 @@
 const Home=require("../models/home")
 const User=require('../models/user')
+const path=require('path')
+const root=require('../utils/pathUtil')
 
 exports.gethomes=(req,res,next)=>{
     Home.find().then(rhouses=>{
@@ -63,3 +65,29 @@ exports.gethomedetails=(req,res,next)=>{
         }
     })
 }
+exports.gethouserules = [
+    (req, res, next) => {
+        if (!req.session.isLoggedIn) {
+            return res.redirect('/login');
+        }
+        next();
+    },
+    async (req, res, next) => {
+        const homeid = req.params.homeid;
+        try {
+            const home = await Home.findById(homeid);
+            if (!home || !home.rules) {
+                return res.status(404).send('No rules found for this home.');
+            }
+            console.log('home.rules',home.rules)
+            const filepath = path.join(root, home.rules);
+            res.download(filepath, 'rules.pdf', (err) => {
+                if (err) {  
+                    return res.status(404).send('File not found.');
+                }
+            });
+        } catch (err) {
+            return res.status(500).send('Server error.');
+        }
+    }
+];
