@@ -94,7 +94,7 @@ app.use('/host',(req,res,next)=>{
 
 app.use(pagenotfound)
 
-const port=3000;
+const port=10000;
 
 
 mongoose.connect(dbpath)
